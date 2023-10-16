@@ -5,9 +5,8 @@ from icalendar import Calendar, Event
 import logging
 from pytz import timezone
 import time
-from typing import Dict
 
-logging.basicConfig(filename='logs/error.log', level=logging.ERROR)
+#logging.basicConfig(filename='logs/error.log', level=logging.ERROR)
 log_prefix = "[" + datetime.now().strftime("%I:%M %p") + "]"
 current_time = datetime.now(timezone("GMT"))
 
@@ -69,7 +68,7 @@ with open("data/events.txt", "w") as f:
     
 if not today_events:
     print()
-    print("There is not an event scheduled for today.")
+    print(log_prefix + " There is not an event scheduled for today.")
     print()
 
 if len(today_events) > 1:
@@ -87,7 +86,7 @@ elif len(today_events) == 1:
         start_time = event["start_time"].strftime("%Y-%m-%d %H:%M:%S")
         end_time = event["end_time"].strftime("%Y-%m-%d %H:%M:%S")
         print()
-        print("EVENTS FOR TODAY!")
+        print("EVENTS FOR TODAY")
         print()
         print(f'{event["subject"]} - Start Time: {start_time} - End Time: {end_time}')
         print()
@@ -159,9 +158,9 @@ def main():
                 print(log_prefix + " Changed status to dnd for: {}".format(ongoing_event["subject"]))
             else:
                 print(log_prefix + " Status is already dnd for: {}".format(ongoing_event["subject"]) + " Skipping status change.")
-        else:
-            update_status("idle")
-            print(log_prefix + " Changed status to idle. | No ongoing event.") 
+        #else:
+            #update_status("idle")
+            #print(log_prefix + " Changed status to idle. | No ongoing event.") 
 
         # Pause the script for x seconds before checking for events again
         print(log_prefix + " Waiting for 120 seconds to check event status again.")
