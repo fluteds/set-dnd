@@ -1,15 +1,14 @@
 
 import requests
 from datetime import datetime
-import schedule
+#import schedule
 import time
 import json
 
-# TODO (maybe?)
-# add custom emojis and text from a file at random when run
-
 with open("config.json", "r") as f:
     config = json.load(f)
+    
+dnd_time = ("17:00:00", "22:00:00") # Change times to be in DND here
 
 def update_status(status):
     """
@@ -45,12 +44,14 @@ def check_status():
 def main():
     log_prefix = "[" + datetime.now().strftime("%I:%M %p") + "]"
     current_time = datetime.now().time()
-    if datetime.strptime("17:00:00", "%H:%M:%S").time() <= current_time <= datetime.strptime("22:00:00", "%H:%M:%S").time():
+    if datetime.strptime(dnd_time[0], "%H:%M:%S").time() <= current_time <= datetime.strptime(dnd_time[1], "%H:%M:%S").time():
         current_status = check_status()
         if current_status != "dnd":
             status = update_status("dnd")
             if "status" in status:
-                print(log_prefix + " Successfully updated status to do not disturb.")
+                print(log_prefix + " Within DND period. Successfully updated status to do not disturb.")
+        else:
+            print(log_prefix + " Status unchanged. (Already DND.)")
     else:
         current_status = check_status()
         if current_status != "idle":
@@ -58,10 +59,10 @@ def main():
             if "status" in status:
                 print(log_prefix + " Successfully updated status to idle.")
         else:
-            print(log_prefix + " Not updating status. Current status is already idle.")
+            print(log_prefix + " Status unchanged. (Already idle.)")
 
-schedule.every().day.at("16:59").do(update_status)
-schedule.every().day.at("22:01").do(update_status)
+#schedule.every().day.at(dnd_time[0]).do(update_status, "dnd") # set status to do not disturb at start time
+#schedule.every().day.at(dnd_time[1]).do(update_status, "idle") # set status to idle at end time
 
 while True:
     main()

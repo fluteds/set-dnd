@@ -1,24 +1,24 @@
 # Set DND
 
-This is a simple self bot script that updates your Discord status to "Do Not Disturb" based on your calendar events. It retrieves your calendar data from a specified url, filters through the events, saves it to a text file and checks if the current time falls within any event start and end times. If it does, the script updates your Discord status to "Do Not Disturb" and also changes back to "Idle" when the event ends.
+A simple self bot that updates your Discord status to "Do Not Disturb" based on your calendar events. It retrieves your calendar data from a specified public url, filters through the events, saves them to a text file and checks if the current time falls within any event start and end times. If it does, the script updates your Discord status to "Do Not Disturb" and also changes back to "Idle" when the event ends.
 
-You will need:
+## Setting up
 
-- Python 3.6 or higher
-- Discord User Token
-- `pytz` and `icalendar` libraries.
+- Install `requrements.txt`
 
-You might need:
+Create a `config.json` file with the following keys:
 
-- Calendar URL (Public)
+- `discord_token`: Account token
+- `calendar_url`: URL of your public internet calendar
+- `timezone`: EG. [Europe/London](https://timezonedb.com/time-zones)
 
-## What if I don't have / want a calendar?
+## What if I don't have a calendar?
 
-If you want to set your status to "Do Not Disturb" at a set time each day you can use the other script. This script can be left to run on a task scheduler or cron job. By default these "Do Not Disturb" hours are between 5pm and 10pm and the status will set to "Idle" outside of those hours. You can change these times by editing the `datetime.strptime` function in the main function accordingly.
+If you want to set your status to "Do Not Disturb" at a set time each day, use the other script (`main.py`) which can be left to run on a task scheduler or cron job. By default these "Do Not Disturb" hours are between 5pm and 10pm and the status will set to "Idle" outside of those hours. You can change these times by editing `dnd_time` accordingly.
 
 ## Will I get banned?
 
-Maybe. This is classified as a self bot because of the status changing and goes against Discord's terms of service but I haven't seen users actively get banned for status changing so use at your own risk on an account you don't that much care for and don't run it too often. That will spam the API.
+Maybe. This is classified as a self bot because of the status changing and goes against Discord's terms of service but I haven't seen users actively get banned for status changing so use at your own risk on an account you don't that much care for and don't run it too often as that will spam the API.
 
 ## Disclaimer
 

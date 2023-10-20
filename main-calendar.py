@@ -3,16 +3,16 @@ from datetime import datetime
 import json
 from icalendar import Calendar, Event
 import logging
-from pytz import timezone
+import pytz
 import time
-
-#logging.basicConfig(filename='logs/error.log', level=logging.ERROR)
-log_prefix = "[" + datetime.now().strftime("%I:%M %p") + "]"
-current_time = datetime.now(timezone("GMT"))
 
 # Load config from file
 with open("config.json", "r") as f:
     config = json.load(f)
+    
+#logging.basicConfig(filename='logs/error.log', level=logging.ERROR)
+current_time = datetime.now(pytz.timezone(config["timezone"]))
+log_prefix = "[" + datetime.now().strftime("%I:%M %p") + "]"
 
 # Retrieve calendar data
 try:
@@ -26,7 +26,6 @@ except requests.exceptions.RequestException as e:
 
 # Create a calendar object from the data
 calendar = Calendar.from_ical(calendar_data)
-
 events_printed = False
 
 # Extract event data
@@ -143,7 +142,7 @@ if today_events:
 def main():
     while True:
         # Define timezone
-        current_time = datetime.now(timezone("GMT"))
+        current_time = datetime.now(pytz.timezone(config["timezone"]))
         
         # Check if there's an ongoing event
         ongoing_event = None
@@ -151,7 +150,7 @@ def main():
             if event["start_time"] <= current_time <= event["end_time"]:
                 ongoing_event = event
 
-        # Update status accordingly
+        # Update status
         if ongoing_event:
             if current_status != "dnd":
                 update_status("dnd")
@@ -162,7 +161,7 @@ def main():
             #update_status("idle")
             #print(log_prefix + " Changed status to idle. | No ongoing event.") 
 
-        # Pause the script for x seconds before checking for events again
+        # Pause the script before checking for events again
         print(log_prefix + " Waiting for 120 seconds to check event status again.")
         time.sleep(120)
 
