@@ -5,6 +5,7 @@ from icalendar import Calendar, Event
 import logging
 import pytz
 import time
+import os
 
 # Load config from file
 with open("config.json", "r") as f:
@@ -56,13 +57,16 @@ for event in events_data:
 # Sort events
 events_data = sorted(events_data, key=lambda x: (datetime.strptime(x["start_time"].strftime("%d/%m/%Y"), '%d/%m/%Y'), x["start_time"].time()))
 
+# Ensure the data directory exists
+os.makedirs("data", exist_ok=True)
+
 # Save events to text file
 with open("data/events.txt", "w") as f:
     for event in events_data:
         start_time = event["start_time"].strftime("%Y-%m-%d %H:%M:%S")
         end_time = event["end_time"].strftime("%Y-%m-%d %H:%M:%S")
         date = event["start_time"].strftime("%d/%m/%Y")
-        f.write("{} - {} - Start Time: {} - End Time: {}\n".format(event["subject"],date, start_time, end_time))
+        f.write("{} - {} - Start Time: {} - End Time: {}\n".format(event["subject"], date, start_time, end_time))
     print(log_prefix + " Successfully wrote events to events.txt")
     
 if not today_events:

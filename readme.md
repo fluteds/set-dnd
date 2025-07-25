@@ -4,13 +4,12 @@ A simple self bot that updates your Discord status to "Do Not Disturb" based on 
 
 ## Setting up
 
-- Install `requrements.txt`
-
-Create a `config.json` file with the following keys:
-
-- `discord_token`: Account token
-- `calendar_url`: URL of your public internet calendar
-- `timezone`: EG. [Europe/London](https://timezonedb.com/time-zones)
+1. Install `requrements.txt`
+2. Create a `config.json` file from the `example.config.json` with the following keys:
+     - `discord_token`: Account token
+     - `calendar_url`: URL of your public internet calendar
+     - `timezone`: EG. [Europe/London](https://timezonedb.com/time-zones)
+3. Run whichever script you wish to have
 
 ## What if I don't have a calendar?
 

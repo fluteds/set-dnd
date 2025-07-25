@@ -8,7 +8,7 @@ import json
 with open("config.json", "r") as f:
     config = json.load(f)
     
-dnd_time = ("17:00:00", "22:00:00") # Change times to be in DND here
+dnd_time = ("14:30:00", "22:30:00") # Change times to be in DND here
 
 def update_status(status):
     """
